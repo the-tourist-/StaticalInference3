@@ -1,0 +1,22 @@
+{
+    "contents" : "",
+    "created" : 1410541525523.000,
+    "dirty" : false,
+    "encoding" : "",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "660F076F",
+    "lastKnownWriteTime" : 7162183753143563315,
+    "path" : null,
+    "project_path" : null,
+    "properties" : {
+        "caption" : "bySupplement",
+        "contentUrl" : "content?title=bySupplement&file=46cf999505e048aeb90d3fbba4a039c5.htm",
+        "displayedObservations" : 2,
+        "displayedVariables" : 6,
+        "totalObservations" : 2,
+        "variables" : 5
+    },
+    "source_on_save" : false,
+    "type" : "r_dataframe"
+}

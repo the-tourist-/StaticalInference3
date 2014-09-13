@@ -1,0 +1,17 @@
+{
+    "contents" : "require(ggplot2)\n\nset.seed(1)\n\nnoSim = 1000\nn <- 40\nlambda <- 0.2\nsimulations <- data.frame(x=replicate(noSim, mean(rexp(n, lambda))))\n\nmean <- mean(simulations$x)\nstdev <- sd(simulations$x)\n\nexpectedMean <- 1 / lambda\nexpectedStdev <- 1 / lambda / sqrt(n)\n\ng <- ggplot(simulations, aes(x = x)) + geom_histogram(binwidth=.3, colour = \"black\", fill = \"lightblue\", aes(y = ..density..)) \ng <- g + stat_function(fun = dnorm, arg=list(mean=expectedMean, sd=expectedStdev), size = 2, aes(colour = \"darkblue\"))\ng <- g + scale_colour_manual(name=\"Legend\", values=c(\"darkblue\"), labels=c(parse(text=\"plain('    Normal Distribution ')*(mu==5)*plain(', ')*(sigma==5)\")))\ng <- g + theme(legend.position=\"bottom\")\ng <- g\nprint(g)",
+    "created" : 1410433497802.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "2870029809",
+    "id" : "8E96AA42",
+    "lastKnownWriteTime" : 1410468258,
+    "path" : "~/GitHub/StaticalInference3/Part1.R",
+    "project_path" : "Part1.R",
+    "properties" : {
+        "tempName" : "Untitled1"
+    },
+    "source_on_save" : true,
+    "type" : "r_source"
+}

@@ -1,0 +1,45 @@
+---
+title: "Statistical Inference - Part 1"
+author: "Graeme Smith"
+output: pdf_document
+---
+
+This is the first part of the assignment, it creates a number of simulations of an exponential distibution with n=40 and lambda=0.2 and compares the distribution of the simulations to the expected distribution.  10,000 simulations were performed.  The code to do this is as follows.
+
+```{r message=FALSE, }
+noSim = 10000
+n <- 40
+lambda <- 0.2
+
+set.seed(1)
+simulations <- data.frame(x=replicate(noSim, mean(rexp(n, lambda))))
+
+mean <- mean(simulations$x)
+stdError <- sd(simulations$x)
+expectedMean <- 1 / lambda
+expectedStdError <- 1 / lambda / sqrt(n)
+```
+
+## Show where the distribution is centered at and compare it to the theoretical center of the distribution.
+The expected center of the distribution (population mean) is `r sprintf("%.3f", expectedMean)` vs an actual mean for the simulations of `r sprintf("%.3f", mean)`.  
+
+## Show how variable it is and compare it to the theoretical variance of the distribution
+The expected variance of the distributions population is `r sprintf("%.3f", expectedStdError^2)` vs an actual variance for the simulations of `r sprintf("%.3f", stdError^2)`.
+
+## Show that the distribution is approximately normal
+
+The result of these simulations are summarised in the graph below.  As can be seen the simulations appears to be approximately normally distributed :
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+require(ggplot2)
+
+g <- ggplot(simulations, aes(x = x)) + geom_histogram(binwidth=.3, colour = "black", fill = "lightblue", aes(y = ..density..)) 
+g <- g + stat_function(fun = dnorm, arg=list(mean=expectedMean, sd=expectedStdError), size = 2, aes(colour = "darkblue"))
+g <- g + scale_colour_manual(name="Legend", values=c("darkblue"), labels=c(parse(text="plain('    Normal Distribution ')*(mu==5)*plain(', ')*(sigma==5)")))
+g <- g + theme(legend.position="bottom")
+print(g)
+```
+
+## Evaluate the coverage of the confidence interval for 1/lambda: X¯±1.96Sn√.
+
+The confidence interval of X +/- 1.96 S / sqrt(n) for the simulation of the exponential distibution with n=40 and lambda=0.2 is (`r sprintf("%.3f", mean-1.96*stdError)`, `r sprintf("%.3f", mean+1.96*stdError)`).  By definition `r sprintf("%.2f%%", 100*(pnorm(1.96)-pnorm(-1.96)))` of the means would be expected to fall within this range. In the simulation `r sprintf("%.2f%%", 100.0*(sum(simulations$x>mean-1.96*stdError & simulations$x<mean+1.96*stdError)/noSim))` did.
